@@ -22,7 +22,7 @@ class RoomViewController: UIViewController {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .center
-        stackView.distribution = .fillEqually
+        stackView.distribution = .equalSpacing
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -52,12 +52,14 @@ class RoomViewController: UIViewController {
     private func setupView() {
         self.view.addSubview(self.roomImageView)
         
+        self.buttonStackView.addArrangedSubview(UIView())
         for room in nextRooms {
             let button = UIButton(type: .system)
             button.setTitle(room.rawValue, for: .normal)
             button.addTarget(self, action: #selector(buttonPressed(sender:)), for: .touchUpInside)
-            buttonStackView.addArrangedSubview(button)
+            self.buttonStackView.addArrangedSubview(button)
         }
+        self.buttonStackView.addArrangedSubview(UIView())
         self.view.addSubview(self.buttonStackView)
     }
     
@@ -66,7 +68,7 @@ class RoomViewController: UIViewController {
         self.roomImageView.topAnchor.constraint(equalTo: safeArea.topAnchor).isActive = true
         self.roomImageView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor).isActive = true
         self.roomImageView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor).isActive = true
-        self.roomImageView.bottomAnchor.constraint(equalTo: safeArea.centerYAnchor).isActive = true
+        self.roomImageView.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 3/5).isActive = true
         
         self.buttonStackView.topAnchor.constraint(equalTo: self.roomImageView.bottomAnchor).isActive = true
         self.buttonStackView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor).isActive = true
