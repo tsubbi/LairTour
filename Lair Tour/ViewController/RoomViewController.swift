@@ -45,6 +45,11 @@ class RoomViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         self.view.backgroundColor = .white
+        // the button will not be shown in root VC in nav controller
+        if self.roomNode != .doorway {
+            let backToFirstRoomButton = UIBarButtonItem(title: "To Gate", style: .plain, target: self, action: #selector(backToGate))
+            self.navigationItem.rightBarButtonItem = backToFirstRoomButton
+        }
         setupView()
         layoutView()
     }
@@ -85,5 +90,9 @@ class RoomViewController: UIViewController {
         let nextRoomVC = RoomViewController(roomNode: nextRoom)
         nextRoomVC.title = nextRoom.rawValue
         self.navigationController?.pushViewController(nextRoomVC, animated: true)
+    }
+    
+    @objc func backToGate() {
+        self.navigationController?.popToRootViewController(animated: true)
     }
 }
