@@ -24,31 +24,6 @@ enum RoomNodeType: String {
     case generator = "Generator"
     case cursedChalice = "Cursed Chalice"
     
-    var previousRoom: RoomNodeType? {
-        switch self {
-        case .coatRoom:
-            return .doorway
-        case .library, .diningRoom, .stairUp:
-            return .coatRoom
-        case .secretPassage:
-            return .library
-        case .dungeon, .labratory, .mysteriousLake:
-            return .secretPassage
-        case .generator:
-            return .labratory
-        case .cursedChalice:
-            return .mysteriousLake
-        case .kitchen:
-            return .diningRoom
-        case .backPorch:
-            return .kitchen
-        case .bedRoom, .bathRoom:
-            return .stairUp
-        default:
-            return nil
-        }
-    }
-    
     var nextRoom: [RoomNodeType]? {
         switch self {
         case .doorway:
