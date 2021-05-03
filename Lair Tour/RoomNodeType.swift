@@ -24,7 +24,7 @@ enum RoomNodeType: String {
     case generator = "Generator"
     case cursedChalice = "Cursed Chalice"
     
-    var nextRoom: [RoomNodeType]? {
+    var nextRooms: [RoomNodeType]? {
         switch self {
         case .doorway:
             return [.coatRoom]

@@ -10,10 +10,8 @@ import UIKit
 class RoomViewController: UIViewController {
     
     private(set) var roomNode: RoomNodeType
-    private var nextRooms: [RoomNodeType] = []
-    lazy var roomImageView: UIImageView = {
-        let img = UIImage(named: roomNode.imageName)
-        let imgV = UIImageView(image: img)
+    var roomImageView: UIImageView = {
+        let imgV = UIImageView()
         imgV.contentMode = .scaleAspectFit
         imgV.translatesAutoresizingMaskIntoConstraints = false
         return imgV
@@ -29,10 +27,6 @@ class RoomViewController: UIViewController {
     
     init(roomNode: RoomNodeType) {
         self.roomNode = roomNode
-        
-        if let nextRooms = roomNode.nextRoom {
-            self.nextRooms = nextRooms
-        }
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -57,14 +51,17 @@ class RoomViewController: UIViewController {
     private func setupView() {
         self.view.addSubview(self.roomImageView)
         
-        self.buttonStackView.addArrangedSubview(UIView())
-        for room in nextRooms {
-            let button = UIButton(type: .system)
-            button.setTitle(room.rawValue, for: .normal)
-            button.addTarget(self, action: #selector(buttonPressed(sender:)), for: .touchUpInside)
-            self.buttonStackView.addArrangedSubview(button)
+        self.roomImageView.image = UIImage(named: self.roomNode.imageName)
+        if let nextRooms = self.roomNode.nextRooms {
+            self.buttonStackView.addArrangedSubview(UIView())
+            for room in nextRooms {
+                let button = UIButton(type: .system)
+                button.setTitle(room.rawValue, for: .normal)
+                button.addTarget(self, action: #selector(toNextRoom(sender:)), for: .touchUpInside)
+                self.buttonStackView.addArrangedSubview(button)
+            }
+            self.buttonStackView.addArrangedSubview(UIView())
         }
-        self.buttonStackView.addArrangedSubview(UIView())
         self.view.addSubview(self.buttonStackView)
     }
     
@@ -81,7 +78,7 @@ class RoomViewController: UIViewController {
         self.buttonStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor).isActive = true
     }
     
-    @objc func buttonPressed(sender: UIButton) {
+    @objc func toNextRoom(sender: UIButton) {
         guard
             let title = sender.titleLabel?.text,
             let nextRoom = RoomNodeType(rawValue: title)
