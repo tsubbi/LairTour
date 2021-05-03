@@ -36,10 +36,9 @@ class RoomViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
         self.view.backgroundColor = .white
-        // the button will not be shown in root VC in nav controller
+        // back to gate way button will not be shown in root VC in nav controller
         if self.roomNode != .doorway {
             let backToFirstRoomButton = UIBarButtonItem(title: "To Gate", style: .plain, target: self, action: #selector(backToGate))
             self.navigationItem.rightBarButtonItem = backToFirstRoomButton
@@ -49,9 +48,11 @@ class RoomViewController: UIViewController {
     }
     
     private func setupView() {
+        // add image to imageView
+        self.roomImageView.image = UIImage(named: self.roomNode.imageName)
         self.view.addSubview(self.roomImageView)
         
-        self.roomImageView.image = UIImage(named: self.roomNode.imageName)
+        // if there is any next room, add button
         if let nextRooms = self.roomNode.nextRooms {
             self.buttonStackView.addArrangedSubview(UIView())
             for room in nextRooms {
